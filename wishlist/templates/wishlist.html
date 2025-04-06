@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-5">
+  <h1>قائمة الأماني</h1>
+  <div class="card">
+    <div class="card-body" style="background-color:dimgrey;">
+      <form action="{% url 'wishlist' %}" method="get">
+          <input type="text" name="search" class="form-control" placeholder="بحث.."/>
+          <a href="{% url 'add' %}" class="btn btn-danger mt-3"><i class="bi bi-plus-lg"></i> اضافة امنية</a>
+          <button class="btn btn-danger mt-3"><i class="bi bi-search-heart"></i> بحث</button>
+          <a href="{% url 'wishlist' %}" class="p-3">إظهار الكل</a>
+        </form>
+    </div>
+  </div>
+  <div class="row mt-4">
+    {% if wish|length == 0 %}
+      <div class="col-12 text-center">
+        <p class="text-muted">لا توجد عناصر للعرض.</p>
+      </div>
+    {% else %}
+      {% for item in wish %}
+      <div class="col-md-4 mb-3">
+        <div class="card h-100" style="width: 300px">
+          <div class="card-body">
+            {% if item.image %}
+              <img
+                src="{{item.image.url}}"
+                class="card-img-top"
+                alt="{{item.name}}"
+                height="180px"
+                style="width: 100%; height: auto; object-fit: contain;"
+              />
+            {% else %}
+              <img
+                src="https://img.freepik.com/free-vector/flat-design-no-photo-sign_23-2149272417.jpg?t=st=1742850160~exp=1742853760~hmac=4aad40cec34ec3f0a8a37598aa45572ee13e0daf90dfa4b03b6fed66abd99e57&w=826"
+                alt=""
+                height="180px"
+                style="width: 100%; height: auto; object-fit: contain;"
+              />
+            {% endif %}
+            <h5 class="card-title text-center mt-1">{{item.name}}</h5>
+            <p class="card-text text-center mt-1">{{item.description}}</p>
+            <p class="card-text text-center">{{item.store}}</p>
+          </div>
+          <div class="card-footer d-flex justify-content-center">
+            <button class="btn btn-link text-danger" onclick="deleteItem('{{ item.id }}')"><i class="bi bi-trash text-danger"></i>حذف</button>
+            <a href="{% url 'edit' id=item.id %}" class="btn btn-link text-success"><i class="bi bi-pencil text-success"></i>تعديل</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

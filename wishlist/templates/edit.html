@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="row">
+  <div class="col">
+    <div class="card" style="width: 100%">
+      <div class="card-body">
+        <form
+          action="{% url 'update' %}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="row mt-3">
+            <input type="hidden" name="id" value="{{ wish.id }}" />
+            <div class="col">
+              <label class="form-label">الاسم</label>
+              <input type="text" id="name" name="name" value="{{ wish.name }}" required>
+            </div>
+            <div class="col">
+              <label class="form-label">الوصف</label>
+              <textarea id="description" name="description" required>{{ wish.description }}</textarea>
+            </div>
+            <div class="col">
+              <label class="form-label">اسم المتجر</label>
+              <input type="text" id="store" name="store" value="{{ wish.store }}" required>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <label class="form-label">الصورة</label>
+            <input type="file" id="image" name="image">
+          </div>
+          <button type="submit" class="btn btn-success">حفظ</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
