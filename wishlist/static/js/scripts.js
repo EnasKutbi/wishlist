@@ -10,16 +10,13 @@ let deleteItem = (id) => {
     cancelButtonText: "إلغاء",
   }).then((result) => {
     if (result.isConfirmed) {
-      // Make an AJAX GET request to delete the item
       $.ajax({
-        url: "/delete/" + id + "/", // Ensure that the URL matches your Django setup
-        type: "GET", // Using GET method for deletion
+        url: "/delete/" + id ,
+        type: "GET", 
         success: function () {
-          // Redirect to wishlist upon successful deletion
           window.location.href = "/wishlist/";
         },
         error: function (xhr, status, error) {
-          // Log any errors and alert the user
           console.error("AJAX Error:", status, error);
           Swal.fire("خطأ!", "فشل حذف العنصر: " + error, "error");
         },
@@ -27,3 +24,5 @@ let deleteItem = (id) => {
     }
   });
 };
+
+
