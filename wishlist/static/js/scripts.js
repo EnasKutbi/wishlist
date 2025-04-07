@@ -25,4 +25,14 @@ let deleteItem = (id) => {
   });
 };
 
+function addCart() {
+  $.ajax({
+    url: "/addtocart/",
+    type: "get",
 
+    success: function (result) {
+      // console.log(result.cart_count)
+      $(".cart-count").text(result.cart_count);
+    },
+  });
+}

@@ -28,6 +28,7 @@ urlpatterns = [
     path('create/', _wishlist.create, name='create'),
     path('delete/<int:id>/', _wishlist.delete, name='delete'),
     path('edit/<int:id>', _wishlist.edit, name='edit'),
-    path('update', _wishlist.update, name='update')
+    path('update', _wishlist.update, name='update'),
+    path('addtocart/', _wishlist.add_to_cart, name='add_to_cart'),
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

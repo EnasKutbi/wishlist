@@ -8,12 +8,16 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def index(request):
+    if 'cart_count' not in request.session:
+        request.session['cart_count']=0
     template = loader.get_template('index.html')
-    return HttpResponse(template.render())
+    return HttpResponse(template.render({'cart_count': request.session['cart_count']}))
 
 
 @csrf_exempt
 def wishlist(request):
+    if 'cart_count' not in request.session:
+        request.session['cart_count']=0
     search_val = request.GET.get('search', '')
     if search_val:
         wish = Wish.objects.filter(name__icontains=search_val)  
@@ -23,15 +27,18 @@ def wishlist(request):
     form = wishForm()
     context = {
         'form': form,
-        'wish': wish
+        'wish': wish,
+        'cart_count': request.session['cart_count']
     }
     
     return render(request, 'wishlist.html', context)
 
 def addWish(request):
+    if 'cart_count' not in request.session:
+        request.session['cart_count']=0
     template = loader.get_template('add.html')
     form = wishForm()
-    return HttpResponse(template.render({'form': form}))
+    return HttpResponse(template.render({'form': form, 'cart_count': request.session['cart_count']}))
 
 @csrf_exempt
 def create(request):
@@ -49,14 +56,19 @@ def delete(request,id):
     if request.method == 'GET':  # Ensure it responds to GET requests
         wish = Wish.objects.get(id=id)
         wish.delete()  # Delete the item
-        return JsonResponse({'success': True})  # Return a success response
+        request.session['cart_count'] = request.session.get('cart_count', 1) - 1
+        request.session.modified = True
+        return JsonResponse({'success': True, 'cart_count': request.session['cart_count']})  # Return a success response
     return JsonResponse({'success': False}, status=400)
 
 def edit(request, id):
+    if 'cart_count' not in request.session:
+        request.session['cart_count']=0
     template = loader.get_template('edit.html')
     wish = Wish.objects.get(id=id)
     items = {
-        'wish': wish
+        'wish': wish,
+        'cart_count': request.session['cart_count']
     }
     return HttpResponse(template.render(items))
 
@@ -79,3 +91,9 @@ def update(request):
         wish.save()
         return redirect('wishlist')
     return redirect('wishlist')
+
+@csrf_exempt
+def add_to_cart(request):
+    request.session['cart_count'] = request.session.get('cart_count', 0) + 1
+    request.session.modified = True
+    return JsonResponse({'cart_count': request.session['cart_count']})
