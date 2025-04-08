@@ -1,12 +1,16 @@
 {% extends 'base.html' %} {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-danger">تسجيل الدخول</button>
-    <p>
-        ليس لديك حساب؟
-        <a href="{% url 'register' %}" class="btn btn-primary">انشاء حساب جديد</a>
-    </p>
+<h2 class="mb-4 mt-4">تسجيل الدخول</h2>
+<form
+  method="post"
+  class="border p-4 rounded shadow-sm mt-2"
+  style="background-color: #f8f9fa"
+>
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit" class="btn btn-danger mt-3">تسجيل الدخول</button>
+  <p class="mt-2">
+    ليس لديك حساب؟
+    <a href="{% url 'register' %}" class="btn btn-primary">انشاء حساب جديد</a>
+  </p>
 </form>
 
 {% endblock %}

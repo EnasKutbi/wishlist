@@ -1,10 +1,13 @@
 {% extends 'base.html' %} {% block content %}
 
-<h2>تسجيل جديد</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary">تسجيل جديد</button>
-</form>
+  <h2 class="mb-4 mt-4">تسجيل جديد</h2>
+    <form method="post" class="border p-4 rounded shadow-sm mt-2" style="background-color: #f8f9fa;">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit" class="btn btn-danger mt-3">تسجيل جديد</button>
+      <p class="d-flex justify-content-center">
+      لديك حساب؟
+      <a href="{% url 'login' %}" class="btn btn-primary">تسجيل الدخول</a>
+    </p>
+    </form>
 
 {% endblock %}
