@@ -4,6 +4,7 @@ from django.template import loader
 from .models import Wish
 from .forms import wishForm
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -15,7 +16,7 @@ def index(request):
         }
     return render(request, 'index.html', context)
 
-
+@login_required
 @csrf_exempt
 def wishlist(request):
     if 'cart_count' not in request.session:

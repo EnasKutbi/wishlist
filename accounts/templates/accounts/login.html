@@ -2,10 +2,10 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">تسجيل الدخول</button>
+    <button type="submit" class="btn btn-danger">تسجيل الدخول</button>
     <p>
         ليس لديك حساب؟
-        <a href="{% url 'register' %}"></a>
+        <a href="{% url 'register' %}" class="btn btn-primary">انشاء حساب جديد</a>
     </p>
 </form>
 
