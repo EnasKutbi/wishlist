@@ -31,7 +31,7 @@ urlpatterns = [
     path('edit/<int:id>', _wishlist.edit, name='edit'),
     path('update', _wishlist.update, name='update'),
     path('addtocart/', _wishlist.add_to_cart, name='add_to_cart'),
-    path('friends/', _friends.friends, name='friends'),
-    path('accounts/', include('accounts.urls'))
+    path('accounts/', include('accounts.urls')),
+    path('friends/', include('friends.urls'))
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
