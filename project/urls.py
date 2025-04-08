@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from wishlist import views as _wishlist
 from friends import views as _friends
 from django.conf import settings
@@ -31,6 +31,7 @@ urlpatterns = [
     path('edit/<int:id>', _wishlist.edit, name='edit'),
     path('update', _wishlist.update, name='update'),
     path('addtocart/', _wishlist.add_to_cart, name='add_to_cart'),
-    path('friends/', _friends.friends, name='friends')
+    path('friends/', _friends.friends, name='friends'),
+    path('accounts/', include('accounts.urls'))
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
