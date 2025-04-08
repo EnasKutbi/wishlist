@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mywishlist',
+        'NAME': 'wishlist',
         'USER': 'root',
         'PASSWORD': 'Ea5312359',
         'HOST': 'localhost',

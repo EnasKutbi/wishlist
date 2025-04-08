@@ -23,9 +23,9 @@ def wishlist(request):
         request.session['cart_count']=0
     search_val = request.GET.get('search', '')
     if search_val:
-        wish = Wish.objects.filter(name__icontains=search_val)  
+        wish = Wish.objects.filter(name__icontains=search_val, user=request.user)  
     else:
-        wish = Wish.objects.all()
+        wish = Wish.objects.filter(user=request.user)
 
     form = wishForm()
     context = {
@@ -46,6 +46,7 @@ def addWish(request):
     }
     return render(request, 'add.html', data)
 
+@login_required
 @csrf_exempt
 def create(request):
     if request.method == 'POST':
@@ -53,7 +54,7 @@ def create(request):
         description = request.POST.get('description')
         image = request.FILES.get('image')
         store = request.POST.get('store')
-        wish = Wish(name=name, description=description, image=image, store=store)
+        wish = Wish(name=name, description=description, image=image, store=store, user=request.user)
         wish.save()
         return redirect('wishlist')
     return redirect('wishlist')
