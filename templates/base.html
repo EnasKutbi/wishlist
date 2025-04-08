@@ -91,11 +91,22 @@
               <span><a href="#">الملف الشخصي</a></span>
             </li>
           </ul>
-          <div class="mb-3 mt-3">
-            <a href="#" class="btn position-relative card-icon">
-              <i class="bi bi-box2-heart"></i>
-              <span class="cart-count">{{cart_count}}</span>
-            </a>
+          <div class="d-flex justify-content-center mt-3">
+            <ul class="list-inline">
+              {% if user.is_authenticated %}
+              <li class="list-inline-item"><a href="#">{{user.username}}<i class="bi bi-person"></i></a></li>
+              <li class="list-inline-item"><a href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i></a></li>
+              {% else %}
+              <li class="list-inline-item"><a href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i></a></li>
+              <li class="list-inline-item"><a href="{% url 'register' %}"><i class="bi bi-person-add"></i></a></li>
+              {% endif %}
+              <li class="list-inline-item">
+                <a href="#" class="card-icon p-2">
+                  <i class="bi bi-box2-heart"></i>
+                  <span class="cart-count">{{cart_count}}</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>

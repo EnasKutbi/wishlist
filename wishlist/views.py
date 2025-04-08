@@ -10,8 +10,10 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     if 'cart_count' not in request.session:
         request.session['cart_count']=0
-    template = loader.get_template('index.html')
-    return HttpResponse(template.render({'cart_count': request.session['cart_count']}))
+    context = {
+        'cart_count': request.session['cart_count']
+        }
+    return render(request, 'index.html', context)
 
 
 @csrf_exempt
@@ -36,9 +38,12 @@ def wishlist(request):
 def addWish(request):
     if 'cart_count' not in request.session:
         request.session['cart_count']=0
-    template = loader.get_template('add.html')
     form = wishForm()
-    return HttpResponse(template.render({'form': form, 'cart_count': request.session['cart_count']}))
+    data = {
+        'form': form,
+        'cart_count': request.session['cart_count']
+    }
+    return render(request, 'add.html', data)
 
 @csrf_exempt
 def create(request):
@@ -64,13 +69,12 @@ def delete(request,id):
 def edit(request, id):
     if 'cart_count' not in request.session:
         request.session['cart_count']=0
-    template = loader.get_template('edit.html')
     wish = Wish.objects.get(id=id)
     items = {
         'wish': wish,
         'cart_count': request.session['cart_count']
     }
-    return HttpResponse(template.render(items))
+    return render(request, 'edit.html', items)
 
 @csrf_exempt
 def update(request):
