@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from wishlist import views as _wishlist
+from friends import views as _friends
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -30,5 +31,6 @@ urlpatterns = [
     path('edit/<int:id>', _wishlist.edit, name='edit'),
     path('update', _wishlist.update, name='update'),
     path('addtocart/', _wishlist.add_to_cart, name='add_to_cart'),
+    path('friends/', _friends.friends, name='friends')
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
