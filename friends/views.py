@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
-from accounts.models import FriendRequest, User
+from accounts.models import FriendRequest,User
 
 # Create your views here.
 
@@ -18,18 +18,11 @@ def friends(request):
     return render(request, 'friends/friends.html', context)
 
 @login_required
-def send_friend_request(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')  # Get username from form data
-        try:
-            receiver = User.objects.get(username=username)  # Find user by username
-            if request.user != receiver:  # Ensure not sending a request to themselves
-                FriendRequest.objects.get_or_create(sender=request.user, receiver=receiver)
-        except User.DoesNotExist:
-            # Handle case where user does not exist, perhaps by showing a message
-            pass
-
-    return redirect('friends')
+def send_friend_request(request, user_id):
+    receiver = get_object_or_404(User, id=user_id)
+    if request.user != receiver:
+        FriendRequest.objects.get_or_create(sender=request.user, receiver=receiver)
+    return redirect('friends', user_id = user_id)
 
 @login_required
 def view_friend_requests(request):
@@ -44,7 +37,6 @@ def accept_friend_request(request, request_id):
             # request.user.friends.add(friend_request.sender)
             # friend_request.sender.friends.add(request.user)
             friend_request.delete()  # Delete the request after acceptance
-        # Optionally add a success message here
         else:
         # Handle an invalid request
             print("Invalid friend request.")
