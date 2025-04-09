@@ -8,4 +8,7 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
         
-
+class FriendRequestForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']

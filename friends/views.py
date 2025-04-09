@@ -2,22 +2,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
-from .models import FriendRequest
-from django.contrib.auth import get_user_model
-from django.db import transaction
+from accounts.models import FriendRequest, User
 
 # Create your views here.
-
-User = get_user_model()
 
 @login_required
 def friends(request):
     if 'cart_count' not in request.session:
         request.session['cart_count']=0
-    friend_requests = request.user.received_requests.all()
+    # friend_requests = request.user.received_requests.all()
     context = {
         'cart_count': request.session['cart_count'],
-        'friend_requests': friend_requests
+        # 'friend_requests': friend_requests
     }
     return render(request, 'friends/friends.html', context)
 

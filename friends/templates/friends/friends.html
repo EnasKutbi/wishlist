@@ -27,6 +27,22 @@
         </form>
     </div>
 </div>
+<!-- <ul class="all_users">
+    
+    {% for user in all_users %}
+        
+        {% if not user.is_superuser %}
+        
+        {% if user not in request.user.friends.all and user != request.user %}
+            <h1>{{user}} <a href="/send_friend_request/{{user.id}}/"></a></h1>
+        {% endif %}
+            
+            
+        {% endif %}
+            
+    {% endfor %}
+        
+</ul> -->
   
   <!-- Friend Requests Section -->
 <div class="card mb-4">
@@ -35,7 +51,7 @@
         <ul class="list-group">
             {% for request in friend_requests %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ request.sender.username }} wants to be your friend.
+                    {{ request.from_user.username }} wants to be your friend.
                     <div>
                         <a href="{% url 'accept_friend_request' request.id %}" class="btn btn-success btn-sm">Accept</a>
                         <form action="{% url 'decline_friend_request' request.id %}" method="post" style="display:inline;">
@@ -64,6 +80,6 @@
       </ul>
     </div>
   </div>
-
+    
 </div>
 {% endblock %}
